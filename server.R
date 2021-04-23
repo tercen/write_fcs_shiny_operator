@@ -50,9 +50,9 @@ shinyServer(function(input, output, session) {
   
 getData <- function(session){
   ctx           <- getCtx(session)
-  clusters      <- ctx$rselect() %>% pull()
+  channels      <- ctx$rselect() %>% pull()
   res           <- t(ctx$as.matrix())
-  colnames(res) <- clusters
+  colnames(res) <- channels
   flow_frame    <- flowCore::flowFrame(res)
   
   return(flow_frame)

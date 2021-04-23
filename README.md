@@ -1,19 +1,16 @@
-# Template Shiny operator for Tercen
+# Write FCS Shiny operator
 
 ##### Description
 
-The `Template Shiny operator` is a template repository for the creation of Shiny operators in Tercen.
+`Write FCS Shiny operator` operator transforms a Tercen dataset to an FCS file.
 
 ##### Usage
 
 Input projection|.
 ---|---
-`x-axis`        | type, description 
-`y-axis`        | type, description 
-`row`           | type, description 
-`column`        | type, description 
-`colors`        | type, description 
-`labels`        | type, description 
+`row`   | represents the variables (e.g. channels, markers)
+`col`   | represents the observations (Use 'Time' on top.) 
+`y-axis`| measurement value
 
 Output relations|.
 ---|---
@@ -21,8 +18,6 @@ Output relations|.
 
 ##### Details
 
-Details on the computation.
+The operator transforms transforms a Tercen dataset to an FCS file. 
 
-##### See Also
-
-[template_R_operator](https://github.com/tercen/template_R_operator)
+The Flow Cytometry Standard is a data file standard for the reading and writing of data from flow cytometry experiments.
