@@ -1,7 +1,7 @@
 {
-  "name": "Template Shiny Operator",
-  "description": "Template to create a Shiny operator in Tercen.",
-  "tags": ["template"],
+  "name": "Write FCS Shiny Operator",
+  "description": "Export an FCS file from Tercen.",
+  "tags": ["shiny"],
   "authors": ["tercen"],
-  "urls": ["https://github.com/tercen/template_shiny_operator"]
+  "urls": ["https://github.com/tercen/write_fcs_shiny_operator"]
 }
