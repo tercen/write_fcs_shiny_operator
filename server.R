@@ -1,7 +1,7 @@
 library(shiny)
 library(tercen)
 library(dplyr)
-library(tidyr)
+library(flowCore)
 
 ############################################
 #### This part should not be modified
@@ -19,35 +19,41 @@ getCtx <- function(session) {
 ############################################
 
 shinyServer(function(input, output, session) {
-  
+
   dataInput <- reactive({
-    getValues(session)
+    getData(session)
   })
   
   output$reacOut <- renderUI({
-    plotOutput(
-      "main.plot",
-      height = input$plotHeight,
-      width = input$plotWidth
+    tagList(
+      HTML("<h3><center>Export FCS</center></h3>"),
+      fluidRow(
+        column(1),
+        column(5, verbatimTextOutput("summary")),
+        column(2, shiny::downloadButton("downloadData", "Export FCS file")))
     )
-  }) 
-  
-  output$main.plot <- renderPlot({
-    values <- dataInput()
-    data <- values$data$.y
-    hist(data)
   })
   
+  output$summary <- renderPrint(
+    str(dataInput())
+  )
+  
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      "export.FCS"
+    },
+    content = function(con) {
+      write.FCS(dataInput(), con)
+    }
+  )
 })
-
-getValues <- function(session){
-  ctx <- getCtx(session)
-  values <- list()
   
-  values$data <- ctx %>% select(.y, .ri, .ci) %>%
-    group_by(.ci, .ri) %>%
-    summarise(.y = mean(.y)) # take the mean of multiple values per cell
+getData <- function(session){
+  ctx           <- getCtx(session)
+  clusters      <- ctx$rselect() %>% pull()
+  res           <- t(ctx$as.matrix())
+  colnames(res) <- clusters
+  flow_frame    <- flowCore::flowFrame(res)
   
-  return(values)
+  return(flow_frame)
 }
-
