@@ -28,6 +28,9 @@
       }
     ]
   },
+  "Bioconductor": {
+    "Version": "3.12"
+  },
   "Packages": {
     "BH": {
       "Package": "BH",
@@ -44,9 +47,9 @@
     },
     "BiocGenerics": {
       "Package": "BiocGenerics",
-      "Version": "0.36.0",
+      "Version": "0.36.1",
       "Source": "Bioconductor",
-      "Hash": "1fe8a6250d04cfb040ebec87447770ba"
+      "Hash": "f628c51eadc74ffd838b801cd22d589a"
     },
     "R6": {
       "Package": "R6",
@@ -77,10 +80,10 @@
     },
     "RcppParallel": {
       "Package": "RcppParallel",
-      "Version": "5.1.1",
+      "Version": "5.1.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "fd7689dbedb4b95654ab873c98297278"
+      "Hash": "028b767d58b4a2f2240dec3f97217414"
     },
     "Rhdf5lib": {
       "Package": "Rhdf5lib",
@@ -227,10 +230,10 @@
     },
     "httpuv": {
       "Package": "httpuv",
-      "Version": "1.5.5",
+      "Version": "1.6.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "b9d5d39be2150cf86538b8488334b8f8"
+      "Hash": "781248b864d00c390830504937fe5c29"
     },
     "jquerylib": {
       "Package": "jquerylib",
