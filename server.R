@@ -39,7 +39,7 @@ shinyServer(function(input, output, session) {
   })
   
   output$summary <- renderText({
-    ctx       <- getContext(session)
+    ctx       <- getCtx(session)
     raw_data  <- rawData()
     col_names <- ctx$cnames %>% unlist()
     paste(paste("Number of rows:", nrow(raw_data)),
@@ -57,17 +57,14 @@ shinyServer(function(input, output, session) {
   )
 })
 
-getContext <- function(session) {
-  getCtx(session)
-}
-
 getRawData <- function(session) {
-  getContext(session)$as.matrix()  
+  getCtx(session)$as.matrix()  
 }
 
 getData <- function(session, raw_data){
-  ctx           <- getContext(session)
+  ctx           <- getCtx(session)
   channels      <- ctx$rselect() %>% pull()
+  col_names     <- ctx$cnames %>% unlist()
   # some columns might be of character type, but the input for flowFrame should be a numeric matrix
   columns       <- ctx$cselect() %>% 
     mutate_if(is.character, as.factor) %>% 
