@@ -24,8 +24,12 @@ ui <- shinyUI(fluidPage(
 
 server <- shinyServer(function(input, output, session) {
   
+  rawData <- reactive({
+    getRawData(session)
+  })
+  
   dataInput <- reactive({
-    getData(session)
+    getData(session, rawData())
   })
   
   output$reacOut <- renderUI({
@@ -38,11 +42,14 @@ server <- shinyServer(function(input, output, session) {
     )
   })
   
-  output$summary <- renderText(
+  output$summary <- renderText({
+    ctx       <- getContext(session)
+    raw_data  <- rawData()
+    col_names <- ctx$cnames %>% unlist()
     paste(paste("Number of rows:", nrow(raw_data)),
           paste("Number of cols:", ncol(raw_data)),
           paste("Column names:",  paste(col_names, collapse = ",")), sep="\n")
-  )
+  })
   
   output$downloadData <- downloadHandler(
       filename = function() {
@@ -54,11 +61,16 @@ server <- shinyServer(function(input, output, session) {
     )
 })
 
-ctx       <- getCtx(session)
-raw_data  <- ctx$as.matrix()
-col_names <- ctx$cnames %>% unlist()
+getContext <- function(session) {
+  getCtx(session)
+}
 
-getData <- function(session){
+getRawData <- function(session) {
+  getContext(session)$as.matrix()  
+}
+
+getData <- function(session, raw_data){
+  ctx           <- getContext(session)
   channels      <- ctx$rselect() %>% pull()
   # some columns might be of character type, but the input for flowFrame should be a numeric matrix
   columns       <- ctx$cselect() %>% 
