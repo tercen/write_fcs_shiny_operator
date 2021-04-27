@@ -51,8 +51,14 @@ shinyServer(function(input, output, session) {
 getData <- function(session){
   ctx           <- getCtx(session)
   channels      <- ctx$rselect() %>% pull()
-  res           <- t(ctx$as.matrix())
-  colnames(res) <- channels
+  cnames        <- ctx$cnames %>% unlist()
+  # some columns might be of character type, but the input for flowFrame should be a numeric matrix
+  columns       <- ctx$cselect() %>% 
+    mutate_if(is.character, as.factor) %>% 
+    mutate_if(is.factor, as.numeric) %>% 
+    replace(is.na(.), 0)
+  res           <- as.matrix(cbind(t(ctx$as.matrix()), columns)) 
+  colnames(res) <- c(channels, cnames)
   flow_frame    <- flowCore::flowFrame(res)
   
   return(flow_frame)
